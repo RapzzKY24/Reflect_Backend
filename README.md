@@ -1,4 +1,3 @@
-````md
 # Reflect Backend
 
 Modern fashion ecommerce backend built with Golang, Gin, PostgreSQL, and Docker.
@@ -7,7 +6,7 @@ Designed with scalable modular architecture, JWT authentication, role-based auth
 
 ---
 
-## 🚀 Tech Stack
+# 🚀 Tech Stack
 
 - Golang
 - Gin Framework
@@ -19,20 +18,20 @@ Designed with scalable modular architecture, JWT authentication, role-based auth
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-### Authentication
+## Authentication
 - Register
 - Login
 - JWT Authentication
 - Role Authorization
 
-### User
+## User
 - User Management
 - Profile Management
 - Avatar Upload
 
-### Ecommerce
+## Ecommerce
 - Products
 - Categories
 - Collections
@@ -42,13 +41,13 @@ Designed with scalable modular architecture, JWT authentication, role-based auth
 - Checkout System
 - Order Tracking
 
-### Admin
+## Admin
 - Product Management
 - Category Management
 - Collection Management
 - Order Status Management
 
-### Upload System
+## Upload System
 - Cloudinary Image Upload
 - Product Image Upload
 - User Avatar Upload
@@ -67,7 +66,7 @@ internal/
 ├── middleware/
 ├── routes/
 ├── utils/
-
+│
 ├── modules/
 │   ├── auth/
 │   ├── user/
@@ -80,13 +79,13 @@ internal/
 │   ├── address/
 │   ├── order/
 │   └── upload/
-````
+```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/yourusername/reflect-backend.git
@@ -98,7 +97,7 @@ cd reflect-backend
 
 ---
 
-## 📦 Install Dependencies
+# 📦 Install Dependencies
 
 ```bash
 go mod tidy
@@ -106,7 +105,7 @@ go mod tidy
 
 ---
 
-## 🔐 Setup Environment
+# 🔐 Setup Environment
 
 Create `.env`
 
@@ -129,11 +128,9 @@ CLOUDINARY_API_SECRET=
 
 ---
 
-## 🐳 Run PostgreSQL Docker
-
 ---
 
-## ▶️ Run Backend
+# ▶️ Run Backend
 
 ```bash
 go run cmd/api/main.go
@@ -201,23 +198,31 @@ Handler
 → Database
 ```
 
-### Benefits
+## Benefits
 
-* Scalable
-* Maintainable
-* Modular
-* Easy to test
+- Scalable
+- Maintainable
+- Modular
+- Easy to test
 
 ---
 
 # 🔒 Security
 
-* JWT Authentication
-* Protected Routes
-* Role-based Authorization
-* Stock-safe Checkout
-* Race-condition Safe Cart Operations
+- JWT Authentication
+- Protected Routes
+- Role-based Authorization
+- Stock-safe Checkout
+- Race-condition Safe Cart Operations
 
 ---
 
+# 📄 License
 
+MIT License
+
+---
+
+# ❤️ Author
+
+Built with passion by RapzDev
