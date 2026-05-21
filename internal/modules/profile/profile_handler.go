@@ -21,6 +21,14 @@ func NewProfileHandler(
 	}
 }
 
+// @Summary      Get my profile
+// @Description  Retrieve the authenticated user's profile
+// @Tags         Profile
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200 {object} utils.SwaggerSuccessResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Router       /me [get]
 func (h *ProfileHandler) GetMyProfile(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 
@@ -39,6 +47,17 @@ func (h *ProfileHandler) GetMyProfile(c *gin.Context) {
 	)
 }
 
+// @Summary      Update my profile
+// @Description  Update the authenticated user's profile information
+// @Tags         Profile
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request body UpdateProfileRequest true "Update Profile Request"
+// @Success      200 {object} utils.SwaggerSuccessResponse
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Router       /me [put]
 func (h *ProfileHandler) UpdateMyProfile(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 

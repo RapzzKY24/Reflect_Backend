@@ -16,6 +16,12 @@ func NewCategoryHandler(categoryService CategoryService) *CategoryHandler {
 	return &CategoryHandler{categoryService: categoryService}
 }
 
+// @Summary      Get all categories
+// @Description  Retrieve all product categories
+// @Tags         Categories
+// @Produce      json
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]category.CategoryResponse}
+// @Router       /categories [get]
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 	categories, err := h.categoryService.GetAllCategories()
 
@@ -27,6 +33,12 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Categories retrieved successfully", categories)
 }
 
+// @Summary      Get active categories
+// @Description  Retrieve only active categories
+// @Tags         Categories
+// @Produce      json
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]category.CategoryResponse}
+// @Router       /categories/active [get]
 func (h *CategoryHandler) GetActiveCategories(c *gin.Context) {
 	categories, err := h.categoryService.GetActiveCategories()
 
@@ -38,6 +50,14 @@ func (h *CategoryHandler) GetActiveCategories(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Active categories retrieved successfully", categories)
 }
 
+// @Summary      Get category by ID
+// @Description  Retrieve a single category by its UUID
+// @Tags         Categories
+// @Produce      json
+// @Param        id path string true "Category ID"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=category.CategoryResponse}
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /categories/{id} [get]
 func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -51,6 +71,14 @@ func (h *CategoryHandler) GetCategoryByID(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Category retrieved successfully", category)
 }
 
+// @Summary      Get category by slug
+// @Description  Retrieve a single category by its URL slug
+// @Tags         Categories
+// @Produce      json
+// @Param        slug path string true "Category Slug"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=category.CategoryResponse}
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /categories/slug/{slug} [get]
 func (h *CategoryHandler) GetCategoryBySlug(c *gin.Context) {
 	slug := c.Param("slug")
 
@@ -64,6 +92,18 @@ func (h *CategoryHandler) GetCategoryBySlug(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Category retrieved successfully", category)
 }
 
+// @Summary      Create category (Admin)
+// @Description  Create a new category (admin only)
+// @Tags         Admin Categories
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request body CreateCategoryRequest true "Create Category Request"
+// @Success      201 {object} utils.SwaggerSuccessResponse{data=category.CategoryResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Router       /admin/categories [post]
 func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 	var request CreateCategoryRequest
 
@@ -82,6 +122,20 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusCreated, "Category created successfully", category)
 }
 
+// @Summary      Update category (Admin)
+// @Description  Update an existing category by ID (admin only)
+// @Tags         Admin Categories
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Category ID"
+// @Param        request body UpdateCategoryRequest true "Update Category Request"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=category.CategoryResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /admin/categories/{id} [put]
 func (h *CategoryHandler) UpdateCategory(c *gin.Context) {
 	id := c.Param("id")
 
@@ -102,6 +156,17 @@ func (h *CategoryHandler) UpdateCategory(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Category updated successfully", category)
 }
 
+// @Summary      Delete category (Admin)
+// @Description  Delete a category by ID (admin only)
+// @Tags         Admin Categories
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Category ID"
+// @Success      200 {object} utils.SwaggerSuccessResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /admin/categories/{id} [delete]
 func (h *CategoryHandler) DeleteCategory(c *gin.Context) {
 	id := c.Param("id")
 

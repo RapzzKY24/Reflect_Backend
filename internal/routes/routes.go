@@ -18,9 +18,13 @@ import (
 	"reflect-backend/internal/modules/wishlist"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func SetupRoutes(router *gin.Engine, cfg *config.Config) {
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	api := router.Group("/api/v1")
 
 	userRepository := user.NewUserRepository(database.DB)

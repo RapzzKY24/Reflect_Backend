@@ -13,6 +13,8 @@ Go 1.25.0 REST API built with Gin, GORM (PostgreSQL), JWT auth, Cloudinary.
 | Run | `go run cmd/api/main.go` |
 | Build | `go build -o main cmd/api/main.go` |
 | Deps | `go mod tidy` |
+| Swagger docs | `swag init -g cmd/api/main.go -o docs --parseDependency --parseInternal` |
+| Swagger UI | `http://localhost:8080/swagger/index.html` |
 | Hot reload | `air` (requires `.air.toml` — create from template; see `.gitignore`) |
 
 No tests exist yet. No CI/CD, no Docker, no Makefile.

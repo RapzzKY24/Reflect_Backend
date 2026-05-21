@@ -16,6 +16,12 @@ func NewCollectionHandler(collectionService CollectionService) *CollectionHandle
 	return &CollectionHandler{collectionService: collectionService}
 }
 
+// @Summary      Get all collections
+// @Description  Retrieve all product collections
+// @Tags         Collections
+// @Produce      json
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]collection.CollectionResponse}
+// @Router       /collections [get]
 func (h *CollectionHandler) GetAllCollections(c *gin.Context) {
 	collections, err := h.collectionService.GetAllCollections()
 
@@ -27,6 +33,12 @@ func (h *CollectionHandler) GetAllCollections(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Collections retrieved successfully", collections)
 }
 
+// @Summary      Get active collections
+// @Description  Retrieve only active collections
+// @Tags         Collections
+// @Produce      json
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]collection.CollectionResponse}
+// @Router       /collections/active [get]
 func (h *CollectionHandler) GetActiveCollections(c *gin.Context) {
 	collections, err := h.collectionService.GetActiveCollections()
 
@@ -38,6 +50,12 @@ func (h *CollectionHandler) GetActiveCollections(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Active collections retrieved successfully", collections)
 }
 
+// @Summary      Get featured collections
+// @Description  Retrieve only featured collections
+// @Tags         Collections
+// @Produce      json
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]collection.CollectionResponse}
+// @Router       /collections/featured [get]
 func (h *CollectionHandler) GetFeaturedCollections(c *gin.Context) {
 	collections, err := h.collectionService.GetFeaturedCollections()
 
@@ -49,6 +67,14 @@ func (h *CollectionHandler) GetFeaturedCollections(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Featured collections retrieved successfully", collections)
 }
 
+// @Summary      Get collection by ID
+// @Description  Retrieve a single collection by its UUID
+// @Tags         Collections
+// @Produce      json
+// @Param        id path string true "Collection ID"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=collection.CollectionResponse}
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /collections/{id} [get]
 func (h *CollectionHandler) GetCollectionByID(c *gin.Context) {
 	id := c.Param("id")
 
@@ -62,6 +88,14 @@ func (h *CollectionHandler) GetCollectionByID(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Collection retrieved successfully", collection)
 }
 
+// @Summary      Get collection by slug
+// @Description  Retrieve a single collection by its URL slug
+// @Tags         Collections
+// @Produce      json
+// @Param        slug path string true "Collection Slug"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=collection.CollectionResponse}
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /collections/slug/{slug} [get]
 func (h *CollectionHandler) GetCollectionBySlug(c *gin.Context) {
 	slug := c.Param("slug")
 
@@ -75,6 +109,18 @@ func (h *CollectionHandler) GetCollectionBySlug(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Collection retrieved successfully", collection)
 }
 
+// @Summary      Create collection (Admin)
+// @Description  Create a new collection (admin only)
+// @Tags         Admin Collections
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request body CreateCollectionRequest true "Create Collection Request"
+// @Success      201 {object} utils.SwaggerSuccessResponse{data=collection.CollectionResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Router       /admin/collections [post]
 func (h *CollectionHandler) CreateCollection(c *gin.Context) {
 	var request CreateCollectionRequest
 
@@ -93,6 +139,20 @@ func (h *CollectionHandler) CreateCollection(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusCreated, "Collection created successfully", collection)
 }
 
+// @Summary      Update collection (Admin)
+// @Description  Update an existing collection by ID (admin only)
+// @Tags         Admin Collections
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Collection ID"
+// @Param        request body UpdateCollectionRequest true "Update Collection Request"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=collection.CollectionResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /admin/collections/{id} [put]
 func (h *CollectionHandler) UpdateCollection(c *gin.Context) {
 	id := c.Param("id")
 
@@ -113,6 +173,17 @@ func (h *CollectionHandler) UpdateCollection(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Collection updated successfully", collection)
 }
 
+// @Summary      Delete collection (Admin)
+// @Description  Delete a collection by ID (admin only)
+// @Tags         Admin Collections
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Collection ID"
+// @Success      200 {object} utils.SwaggerSuccessResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /admin/collections/{id} [delete]
 func (h *CollectionHandler) DeleteCollection(c *gin.Context) {
 	id := c.Param("id")
 

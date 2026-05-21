@@ -18,6 +18,15 @@ func NewAuthHandler(authService AuthService) *AuthHandler {
 	}
 }
 
+// @Summary      Register a new user
+// @Description  Create a new user account with name, email, and password
+// @Tags         Authentication
+// @Accept       json
+// @Produce      json
+// @Param        request body RegisterRequest true "Register Request"
+// @Success      201 {object} utils.SwaggerSuccessResponse{data=auth.AuthResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Router       /auth/register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var request RegisterRequest
 
@@ -41,6 +50,16 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	)
 }
 
+// @Summary      Login user
+// @Description  Authenticate user with email and password, returns JWT token
+// @Tags         Authentication
+// @Accept       json
+// @Produce      json
+// @Param        request body LoginRequest true "Login Request"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=auth.AuthResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Router       /auth/login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var request LoginRequest
 

@@ -1,0 +1,2240 @@
+basePath: /api/v1
+definitions:
+  internal_modules_address.AddressResponse:
+    properties:
+      city:
+        type: string
+      created_at:
+        type: string
+      district:
+        type: string
+      full_address:
+        type: string
+      id:
+        type: string
+      is_primary:
+        type: boolean
+      label:
+        type: string
+      phone_number:
+        type: string
+      postal_code:
+        type: string
+      province:
+        type: string
+      recipient_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_modules_address.CreateAddressRequest:
+    properties:
+      city:
+        type: string
+      district:
+        type: string
+      full_address:
+        type: string
+      is_primary:
+        type: boolean
+      label:
+        type: string
+      phone_number:
+        type: string
+      postal_code:
+        type: string
+      province:
+        type: string
+      recipient_name:
+        type: string
+    required:
+    - city
+    - district
+    - full_address
+    - phone_number
+    - postal_code
+    - province
+    - recipient_name
+    type: object
+  internal_modules_address.UpdateAddressRequest:
+    properties:
+      city:
+        type: string
+      district:
+        type: string
+      full_address:
+        type: string
+      is_primary:
+        type: boolean
+      label:
+        type: string
+      phone_number:
+        type: string
+      postal_code:
+        type: string
+      province:
+        type: string
+      recipient_name:
+        type: string
+    type: object
+  internal_modules_auth.AuthResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/reflect-backend_internal_modules_user.UserResponse'
+    type: object
+  internal_modules_auth.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  internal_modules_auth.RegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        maxLength: 100
+        minLength: 3
+        type: string
+      password:
+        minLength: 8
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  internal_modules_cart.AddToCartRequest:
+    properties:
+      product_id:
+        type: string
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
+  internal_modules_cart.CartItemResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: integer
+      product_id:
+        type: string
+      quantity:
+        type: integer
+      slug:
+        type: string
+      stock:
+        type: integer
+      stock_status:
+        type: string
+      subtotal:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  internal_modules_cart.CartResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/internal_modules_cart.CartItemResponse'
+        type: array
+      total_items:
+        type: integer
+      total_price:
+        type: integer
+    type: object
+  internal_modules_cart.UpdateCartItemRequest:
+    properties:
+      quantity:
+        minimum: 1
+        type: integer
+    required:
+    - quantity
+    type: object
+  internal_modules_category.CategoryResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      slug:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_modules_category.CreateCategoryRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      slug:
+        maxLength: 120
+        minLength: 2
+        type: string
+    required:
+    - name
+    - slug
+    type: object
+  internal_modules_category.UpdateCategoryRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  internal_modules_collection.CollectionResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      is_featured:
+        type: boolean
+      name:
+        type: string
+      slug:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_modules_collection.CreateCollectionRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      is_featured:
+        type: boolean
+      name:
+        maxLength: 120
+        minLength: 2
+        type: string
+      slug:
+        maxLength: 150
+        minLength: 2
+        type: string
+    required:
+    - name
+    - slug
+    type: object
+  internal_modules_collection.UpdateCollectionRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      is_active:
+        type: boolean
+      is_featured:
+        type: boolean
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  internal_modules_order.CheckoutRequest:
+    properties:
+      address_id:
+        type: string
+    required:
+    - address_id
+    type: object
+  internal_modules_order.OrderItemResponse:
+    properties:
+      id:
+        type: string
+      price:
+        type: integer
+      product_id:
+        type: string
+      product_image:
+        type: string
+      product_name:
+        type: string
+      product_slug:
+        type: string
+      quantity:
+        type: integer
+      subtotal:
+        type: integer
+    type: object
+  internal_modules_order.OrderResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/internal_modules_order.OrderItemResponse'
+        type: array
+      order_number:
+        type: string
+      order_status:
+        $ref: '#/definitions/internal_modules_order.OrderStatus'
+      payment_status:
+        $ref: '#/definitions/internal_modules_order.PaymentStatus'
+      shipping:
+        type: integer
+      shipping_status:
+        $ref: '#/definitions/internal_modules_order.ShippingStatus'
+      subtotal:
+        type: integer
+      total:
+        type: integer
+      tracking:
+        items:
+          $ref: '#/definitions/internal_modules_order.OrderTrackingResponse'
+        type: array
+      tracking_number:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_modules_order.OrderStatus:
+    enum:
+    - pending
+    - paid
+    - processing
+    - shipped
+    - delivered
+    - cancelled
+    type: string
+    x-enum-varnames:
+    - OrderPending
+    - OrderPaid
+    - OrderProcessing
+    - OrderShipped
+    - OrderDelivered
+    - OrderCancelled
+  internal_modules_order.OrderTrackingResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      location:
+        type: string
+      status:
+        type: string
+    type: object
+  internal_modules_order.PaymentStatus:
+    enum:
+    - pending
+    - paid
+    - failed
+    type: string
+    x-enum-varnames:
+    - PaymentPending
+    - PaymentPaid
+    - PaymentFailed
+  internal_modules_order.ShippingStatus:
+    enum:
+    - pending
+    - packed
+    - in_transit
+    - delivered
+    type: string
+    x-enum-varnames:
+    - ShippingPending
+    - ShippingPacked
+    - ShippingInTransit
+    - ShippingDelivered
+  internal_modules_order.UpdateOrderStatusRequest:
+    properties:
+      description:
+        type: string
+      location:
+        type: string
+      order_status:
+        $ref: '#/definitions/internal_modules_order.OrderStatus'
+      payment_status:
+        $ref: '#/definitions/internal_modules_order.PaymentStatus'
+      shipping_status:
+        $ref: '#/definitions/internal_modules_order.ShippingStatus'
+      tracking_status:
+        type: string
+    required:
+    - order_status
+    type: object
+  internal_modules_product.CreateProductRequest:
+    properties:
+      category:
+        $ref: '#/definitions/internal_modules_product.ProductCategory'
+      collection:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+      is_featured:
+        type: boolean
+      is_new_arrival:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: integer
+      slug:
+        type: string
+      stock:
+        type: integer
+    required:
+    - category
+    - name
+    - price
+    - slug
+    type: object
+  internal_modules_product.ProductCategory:
+    enum:
+    - hoodie
+    - t-shirt
+    - outerwear
+    - accessories
+    - shoes
+    type: string
+    x-enum-varnames:
+    - CategoryHoodie
+    - CategoryTShirt
+    - CategoryOuterwear
+    - CategoryAccessories
+    - CategoryShoes
+  internal_modules_product.ProductResponse:
+    properties:
+      category:
+        $ref: '#/definitions/internal_modules_product.ProductCategory'
+      collection:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      is_featured:
+        type: boolean
+      is_new_arrival:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: integer
+      slug:
+        type: string
+      stock:
+        type: integer
+      stock_status:
+        $ref: '#/definitions/internal_modules_product.StockStatus'
+      updated_at:
+        type: string
+    type: object
+  internal_modules_product.StockStatus:
+    enum:
+    - in_stock
+    - low_stock
+    - out_of_stock
+    type: string
+    x-enum-varnames:
+    - StockInStock
+    - StockLowStock
+    - StockOutOfStock
+  internal_modules_product.UpdateProductRequest:
+    properties:
+      category:
+        $ref: '#/definitions/internal_modules_product.ProductCategory'
+      collection:
+        type: string
+      description:
+        type: string
+      image:
+        type: string
+      is_featured:
+        type: boolean
+      is_new_arrival:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: integer
+      slug:
+        type: string
+      stock:
+        type: integer
+    type: object
+  internal_modules_profile.UpdateProfileRequest:
+    properties:
+      avatar:
+        type: string
+      name:
+        type: string
+    type: object
+  internal_modules_user.UserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        $ref: '#/definitions/internal_modules_user.UserRole'
+      updated_at:
+        type: string
+    type: object
+  internal_modules_user.UserRole:
+    enum:
+    - user
+    - admin
+    type: string
+    x-enum-varnames:
+    - RoleUser
+    - RoleAdmin
+  internal_modules_wishlist.AddWishlistRequest:
+    properties:
+      product_id:
+        type: string
+    required:
+    - product_id
+    type: object
+  internal_modules_wishlist.WishlistItemResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      is_featured:
+        type: boolean
+      is_new_arrival:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: integer
+      product_id:
+        type: string
+      slug:
+        type: string
+      stock:
+        type: integer
+      stock_status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  reflect-backend_internal_modules_user.UserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        $ref: '#/definitions/reflect-backend_internal_modules_user.UserRole'
+      updated_at:
+        type: string
+    type: object
+  reflect-backend_internal_modules_user.UserRole:
+    enum:
+    - user
+    - admin
+    type: string
+    x-enum-varnames:
+    - RoleUser
+    - RoleAdmin
+  reflect-backend_internal_utils.SwaggerErrorResponse:
+    properties:
+      error: {}
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  reflect-backend_internal_utils.SwaggerSuccessResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  reflect-backend_internal_utils.SwaggerValidationErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: E-commerce REST API built with Go, Gin, GORM, JWT, and Cloudinary
+  title: Reflect Backend API
+  version: "1.0"
+paths:
+  /addresses:
+    get:
+      description: Retrieve all saved addresses for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_address.AddressResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my addresses
+      tags:
+      - Addresses
+    post:
+      consumes:
+      - application/json
+      description: Create a new shipping address for the authenticated user
+      parameters:
+      - description: Create Address Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_address.CreateAddressRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_address.AddressResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create address
+      tags:
+      - Addresses
+  /addresses/{id}:
+    delete:
+      description: Delete a shipping address by ID
+      parameters:
+      - description: Address ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete address
+      tags:
+      - Addresses
+    put:
+      consumes:
+      - application/json
+      description: Update an existing shipping address
+      parameters:
+      - description: Address ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Address Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_address.UpdateAddressRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_address.AddressResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update address
+      tags:
+      - Addresses
+  /admin/categories:
+    post:
+      consumes:
+      - application/json
+      description: Create a new category (admin only)
+      parameters:
+      - description: Create Category Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_category.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_category.CategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create category (Admin)
+      tags:
+      - Admin Categories
+  /admin/categories/{id}:
+    delete:
+      description: Delete a category by ID (admin only)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete category (Admin)
+      tags:
+      - Admin Categories
+    put:
+      consumes:
+      - application/json
+      description: Update an existing category by ID (admin only)
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Category Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_category.UpdateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_category.CategoryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update category (Admin)
+      tags:
+      - Admin Categories
+  /admin/collections:
+    post:
+      consumes:
+      - application/json
+      description: Create a new collection (admin only)
+      parameters:
+      - description: Create Collection Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_collection.CreateCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create collection (Admin)
+      tags:
+      - Admin Collections
+  /admin/collections/{id}:
+    delete:
+      description: Delete a collection by ID (admin only)
+      parameters:
+      - description: Collection ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete collection (Admin)
+      tags:
+      - Admin Collections
+    put:
+      consumes:
+      - application/json
+      description: Update an existing collection by ID (admin only)
+      parameters:
+      - description: Collection ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Collection Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_collection.UpdateCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update collection (Admin)
+      tags:
+      - Admin Collections
+  /admin/orders/{id}/status:
+    put:
+      consumes:
+      - application/json
+      description: Update order status, payment status, and shipping status (admin
+        only)
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Order Status Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_order.UpdateOrderStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_order.OrderResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update order status (Admin)
+      tags:
+      - Admin Orders
+  /admin/products:
+    post:
+      consumes:
+      - application/json
+      description: Create a new product (admin only)
+      parameters:
+      - description: Create Product Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_product.CreateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_product.ProductResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Create product (Admin)
+      tags:
+      - Admin Products
+  /admin/products/{id}:
+    delete:
+      description: Delete a product by ID (admin only)
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete product (Admin)
+      tags:
+      - Admin Products
+    put:
+      consumes:
+      - application/json
+      description: Update an existing product by ID (admin only)
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Product Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_product.UpdateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_product.ProductResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update product (Admin)
+      tags:
+      - Admin Products
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user with email and password, returns JWT token
+      parameters:
+      - description: Login Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_auth.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Login user
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account with name, email, and password
+      parameters:
+      - description: Register Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_auth.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+      summary: Register a new user
+      tags:
+      - Authentication
+  /cart:
+    delete:
+      description: Remove all items from the authenticated user's cart
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Clear cart
+      tags:
+      - Cart
+    get:
+      description: Retrieve the authenticated user's shopping cart
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_cart.CartResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my cart
+      tags:
+      - Cart
+    post:
+      consumes:
+      - application/json
+      description: Add a product to the authenticated user's cart. If the product
+        already exists, quantities are added together.
+      parameters:
+      - description: Add to Cart Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_cart.AddToCartRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_cart.CartResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Add item to cart
+      tags:
+      - Cart
+  /cart/{id}:
+    delete:
+      description: Remove a specific item from the cart
+      parameters:
+      - description: Cart Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove cart item
+      tags:
+      - Cart
+    put:
+      consumes:
+      - application/json
+      description: Update the quantity of a specific item in the cart
+      parameters:
+      - description: Cart Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Cart Item Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_cart.UpdateCartItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_cart.CartResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update cart item quantity
+      tags:
+      - Cart
+  /categories:
+    get:
+      description: Retrieve all product categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_category.CategoryResponse'
+                  type: array
+              type: object
+      summary: Get all categories
+      tags:
+      - Categories
+  /categories/{id}:
+    get:
+      description: Retrieve a single category by its UUID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_category.CategoryResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get category by ID
+      tags:
+      - Categories
+  /categories/active:
+    get:
+      description: Retrieve only active categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_category.CategoryResponse'
+                  type: array
+              type: object
+      summary: Get active categories
+      tags:
+      - Categories
+  /categories/slug/{slug}:
+    get:
+      description: Retrieve a single category by its URL slug
+      parameters:
+      - description: Category Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_category.CategoryResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get category by slug
+      tags:
+      - Categories
+  /checkout:
+    post:
+      consumes:
+      - application/json
+      description: Convert cart items into an order, deduct stock, and clear cart
+      parameters:
+      - description: Checkout Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_order.CheckoutRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_order.OrderResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Checkout
+      tags:
+      - Orders
+  /collections:
+    get:
+      description: Retrieve all product collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+                  type: array
+              type: object
+      summary: Get all collections
+      tags:
+      - Collections
+  /collections/{id}:
+    get:
+      description: Retrieve a single collection by its UUID
+      parameters:
+      - description: Collection ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get collection by ID
+      tags:
+      - Collections
+  /collections/active:
+    get:
+      description: Retrieve only active collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+                  type: array
+              type: object
+      summary: Get active collections
+      tags:
+      - Collections
+  /collections/featured:
+    get:
+      description: Retrieve only featured collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+                  type: array
+              type: object
+      summary: Get featured collections
+      tags:
+      - Collections
+  /collections/slug/{slug}:
+    get:
+      description: Retrieve a single collection by its URL slug
+      parameters:
+      - description: Collection Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_collection.CollectionResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get collection by slug
+      tags:
+      - Collections
+  /me:
+    get:
+      description: Retrieve the authenticated user's profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my profile
+      tags:
+      - Profile
+    put:
+      consumes:
+      - application/json
+      description: Update the authenticated user's profile information
+      parameters:
+      - description: Update Profile Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_profile.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update my profile
+      tags:
+      - Profile
+  /orders:
+    get:
+      description: Retrieve all orders for the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_order.OrderResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my orders
+      tags:
+      - Orders
+  /orders/{id}:
+    get:
+      description: Retrieve a specific order by its ID for the authenticated user
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_order.OrderResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get order by ID
+      tags:
+      - Orders
+  /orders/number/{orderNumber}:
+    get:
+      description: Retrieve a specific order by its order number for the authenticated
+        user
+      parameters:
+      - description: Order Number
+        in: path
+        name: orderNumber
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_order.OrderResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get order by order number
+      tags:
+      - Orders
+  /products:
+    get:
+      description: Retrieve a list of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_product.ProductResponse'
+                  type: array
+              type: object
+      summary: Get all products
+      tags:
+      - Products
+  /products/{id}:
+    get:
+      description: Retrieve a single product by its UUID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_product.ProductResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get product by ID
+      tags:
+      - Products
+  /products/{id}/related:
+    get:
+      description: Retrieve up to 3 related products from the same category, excluding
+        the current product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_product.ProductResponse'
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get related products
+      tags:
+      - Products
+  /products/category:
+    get:
+      description: Retrieve products filtered by category name
+      parameters:
+      - description: Category name (e.g. hoodie, t-shirt)
+        in: query
+        name: category
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_product.ProductResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get products by category
+      tags:
+      - Products
+  /products/featured:
+    get:
+      description: Retrieve products marked as featured
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_product.ProductResponse'
+                  type: array
+              type: object
+      summary: Get featured products
+      tags:
+      - Products
+  /products/new-arrivals:
+    get:
+      description: Retrieve products marked as new arrivals
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_product.ProductResponse'
+                  type: array
+              type: object
+      summary: Get new arrivals
+      tags:
+      - Products
+  /products/slug/{slug}:
+    get:
+      description: Retrieve a single product by its URL slug
+      parameters:
+      - description: Product Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_product.ProductResponse'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      summary: Get product by slug
+      tags:
+      - Products
+  /upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload an image file to Cloudinary and return the URL
+      parameters:
+      - description: Image file to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: string
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Upload image
+      tags:
+      - Upload
+  /users:
+    get:
+      description: Retrieve a list of all users (admin only)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_user.UserResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get all users (Admin)
+      tags:
+      - Admin Users
+  /users/{id}:
+    delete:
+      description: Delete a user by ID (admin only)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete user (Admin)
+      tags:
+      - Admin Users
+    get:
+      description: Retrieve a single user by their UUID (authenticated users can get
+        their own)
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/internal_modules_user.UserResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user by ID
+      tags:
+      - Admin Users
+  /wishlist:
+    get:
+      description: Retrieve the authenticated user's wishlist
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_wishlist.WishlistItemResponse'
+                  type: array
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get my wishlist
+      tags:
+      - Wishlist
+    post:
+      consumes:
+      - application/json
+      description: Add a product to the authenticated user's wishlist
+      parameters:
+      - description: Add to Wishlist Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/internal_modules_wishlist.AddWishlistRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/internal_modules_wishlist.WishlistItemResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerValidationErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Add item to wishlist
+      tags:
+      - Wishlist
+  /wishlist/{id}:
+    delete:
+      description: Remove a specific item from the wishlist by its ID
+      parameters:
+      - description: Wishlist Item ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove wishlist item
+      tags:
+      - Wishlist
+  /wishlist/product/{productId}:
+    delete:
+      description: Remove an item from the wishlist by product ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerSuccessResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/reflect-backend_internal_utils.SwaggerErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Remove wishlist item by product
+      tags:
+      - Wishlist
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

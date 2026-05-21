@@ -19,6 +19,17 @@ func NewOrderHandler(orderService OrderService) *OrderHandler {
 	}
 }
 
+// @Summary      Checkout
+// @Description  Convert cart items into an order, deduct stock, and clear cart
+// @Tags         Orders
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        request body CheckoutRequest true "Checkout Request"
+// @Success      201 {object} utils.SwaggerSuccessResponse{data=order.OrderResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Router       /checkout [post]
 func (h *OrderHandler) Checkout(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 
@@ -44,6 +55,14 @@ func (h *OrderHandler) Checkout(c *gin.Context) {
 	)
 }
 
+// @Summary      Get my orders
+// @Description  Retrieve all orders for the authenticated user
+// @Tags         Orders
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]order.OrderResponse}
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Router       /orders [get]
 func (h *OrderHandler) GetMyOrders(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 
@@ -62,6 +81,16 @@ func (h *OrderHandler) GetMyOrders(c *gin.Context) {
 	)
 }
 
+// @Summary      Get order by ID
+// @Description  Retrieve a specific order by its ID for the authenticated user
+// @Tags         Orders
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Order ID"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=order.OrderResponse}
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /orders/{id} [get]
 func (h *OrderHandler) GetMyOrderByID(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 	orderID := c.Param("id")
@@ -81,6 +110,16 @@ func (h *OrderHandler) GetMyOrderByID(c *gin.Context) {
 	)
 }
 
+// @Summary      Get order by order number
+// @Description  Retrieve a specific order by its order number for the authenticated user
+// @Tags         Orders
+// @Produce      json
+// @Security     BearerAuth
+// @Param        orderNumber path string true "Order Number"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=order.OrderResponse}
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /orders/number/{orderNumber} [get]
 func (h *OrderHandler) GetMyOrderByNumber(c *gin.Context) {
 	userID := middleware.GetCurrentUserID(c)
 	orderNumber := c.Param("orderNumber")
@@ -100,6 +139,20 @@ func (h *OrderHandler) GetMyOrderByNumber(c *gin.Context) {
 	)
 }
 
+// @Summary      Update order status (Admin)
+// @Description  Update order status, payment status, and shipping status (admin only)
+// @Tags         Admin Orders
+// @Accept       json
+// @Produce      json
+// @Security     BearerAuth
+// @Param        id path string true "Order ID"
+// @Param        request body UpdateOrderStatusRequest true "Update Order Status Request"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=order.OrderResponse}
+// @Failure      400 {object} utils.SwaggerValidationErrorResponse
+// @Failure      401 {object} utils.SwaggerErrorResponse
+// @Failure      403 {object} utils.SwaggerErrorResponse
+// @Failure      404 {object} utils.SwaggerErrorResponse
+// @Router       /admin/orders/{id}/status [put]
 func (h *OrderHandler) UpdateOrderStatus(c *gin.Context) {
 	orderID := c.Param("id")
 

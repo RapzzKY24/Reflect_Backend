@@ -1,8 +1,18 @@
 package main
 
+// @title           Reflect Backend API
+// @version         1.0
+// @description     E-commerce REST API built with Go, Gin, GORM, JWT, and Cloudinary
+// @host            localhost:8080
+// @BasePath        /api/v1
+// @securityDefinitions.apikey BearerAuth
+// @in              header
+// @name            Authorization
+
 import (
 	"log"
 
+	_ "reflect-backend/docs"
 	"reflect-backend/internal/config"
 	"reflect-backend/internal/database"
 	"reflect-backend/internal/middleware"
