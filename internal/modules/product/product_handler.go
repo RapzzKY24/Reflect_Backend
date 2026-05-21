@@ -53,6 +53,24 @@ func (h *ProductHandler) GetProductBySlug(c *gin.Context) {
 	utils.SuccessResponse(c, http.StatusOK, "Product retrieved successfully", product)
 }
 
+func (h *ProductHandler) GetRelatedProducts(c *gin.Context) {
+	id := c.Param("id")
+
+	products, err := h.productService.GetRelatedProducts(id)
+
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	utils.SuccessResponse(
+		c,
+		http.StatusOK,
+		"Related products retrieved successfully",
+		products,
+	)
+}
+
 func (h *ProductHandler) GetNewArrivals(c *gin.Context) {
 	products, err := h.productService.GetNewArrivals()
 

@@ -11,6 +11,7 @@ type ProductRepository interface {
 	FindBySlug(slug string) (Product, error)
 	FindNewArrivals() ([]Product, error)
 	FindFeatured() ([]Product, error)
+	FindRelatedProducts(category string, excludeID uuid.UUID, limit int) ([]Product, error)
 	FindByCategory(category string) ([]Product, error)
 	Create(product Product) (Product, error)
 	Update(product Product) (Product, error)
@@ -39,6 +40,22 @@ func (r *productRepository) FindByID(id uuid.UUID) (Product, error) {
 	err := r.db.First(&product, "id = ?", id).Error
 
 	return product, err
+}
+
+func (r *productRepository) FindRelatedProducts(
+	category string,
+	excludeID uuid.UUID,
+	limit int,
+) ([]Product, error) {
+	var products []Product
+
+	err := r.db.
+		Where("category = ? AND id != ?", category, excludeID).
+		Order("created_at DESC").
+		Limit(limit).
+		Find(&products).Error
+
+	return products, err
 }
 
 func (r *productRepository) FindBySlug(slug string) (Product, error) {

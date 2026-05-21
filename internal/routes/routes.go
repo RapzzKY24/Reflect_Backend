@@ -88,6 +88,7 @@ func SetupRoutes(router *gin.Engine, cfg *config.Config) {
 		productRoutes.GET("/featured", productHandler.GetFeaturedProducts)
 		productRoutes.GET("/category", productHandler.GetProductsByCategory)
 		productRoutes.GET("/slug/:slug", productHandler.GetProductBySlug)
+		productRoutes.GET("/:id/related", productHandler.GetRelatedProducts)
 		productRoutes.GET("/:id", productHandler.GetProductByID)
 	}
 

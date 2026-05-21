@@ -13,6 +13,7 @@ type ProductService interface {
 	GetAllProducts() ([]ProductResponse, error)
 	GetProductByID(id string) (ProductResponse, error)
 	GetProductBySlug(slug string) (ProductResponse, error)
+	GetRelatedProducts(id string) ([]ProductResponse, error)
 	GetNewArrivals() ([]ProductResponse, error)
 	GetFeaturedProducts() ([]ProductResponse, error)
 	GetProductsByCategory(category string) ([]ProductResponse, error)
@@ -71,6 +72,36 @@ func (s *productService) GetProductBySlug(slug string) (ProductResponse, error) 
 	}
 
 	return ToProductResponse(productData), nil
+}
+
+func (s *productService) GetRelatedProducts(id string) ([]ProductResponse, error) {
+	productID, err := uuid.Parse(id)
+
+	if err != nil {
+		return nil, utils.BadRequest("Invalid product ID")
+	}
+
+	productData, err := s.productRepository.FindByID(productID)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, utils.NotFound("Product not found")
+		}
+
+		return nil, utils.InternalServerError("Failed to get product")
+	}
+
+	products, err := s.productRepository.FindRelatedProducts(
+		string(productData.Category),
+		productData.ID,
+		3,
+	)
+
+	if err != nil {
+		return nil, utils.InternalServerError("Failed to get related products")
+	}
+
+	return ToProductResponses(products), nil
 }
 
 func (s *productService) GetNewArrivals() ([]ProductResponse, error) {
