@@ -10,7 +10,7 @@ import (
 )
 
 type CategoryService interface {
-	GetAllCategories() ([]CategoryResponse, error)
+	GetAllCategories(filter CategoryFilter) (utils.PaginatedData, error)
 	GetActiveCategories() ([]CategoryResponse, error)
 	GetCategoryByID(id string) (CategoryResponse, error)
 	GetCategoryBySlug(slug string) (CategoryResponse, error)
@@ -27,14 +27,29 @@ func NewCategoryService(categoryRepository CategoryRepository) CategoryService {
 	return &categoryService{categoryRepository: categoryRepository}
 }
 
-func (s *categoryService) GetAllCategories() ([]CategoryResponse, error) {
-	categories, err := s.categoryRepository.FindAll()
+func (s *categoryService) GetAllCategories(filter CategoryFilter) (utils.PaginatedData, error) {
+	categories, total, err := s.categoryRepository.FindAllPaginated(filter)
 
 	if err != nil {
-		return nil, utils.InternalServerError("Failed to get categories")
+		return utils.PaginatedData{}, utils.InternalServerError("Failed to get categories")
 	}
 
-	return ToCategoryResponses(categories), nil
+	page := filter.Page
+	if page < 1 {
+		page = 1
+	}
+
+	limit := filter.Limit
+	if limit < 1 {
+		limit = 12
+	}
+
+	return utils.PaginatedData{
+		Items:      ToCategoryResponses(categories),
+		TotalItems: total,
+		Page:       page,
+		Limit:      limit,
+	}, nil
 }
 
 func (s *categoryService) GetActiveCategories() ([]CategoryResponse, error) {

@@ -2,6 +2,7 @@ package category
 
 import (
 	"net/http"
+	"strconv"
 
 	"reflect-backend/internal/utils"
 
@@ -17,20 +18,44 @@ func NewCategoryHandler(categoryService CategoryService) *CategoryHandler {
 }
 
 // @Summary      Get all categories
-// @Description  Retrieve all product categories
+// @Description  Retrieve a paginated list of categories with search and sorting
 // @Tags         Categories
 // @Produce      json
-// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]category.CategoryResponse}
+// @Param        page   query int    false "Page number (default: 1)"
+// @Param        limit  query int    false "Items per page (default: 12)"
+// @Param        search query string false "Search categories by name (partial match)"
+// @Param        sort   query string false "Sort by (name_asc, name_desc)"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=utils.PaginatedData{items=[]category.CategoryResponse}}
 // @Router       /categories [get]
 func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
-	categories, err := h.categoryService.GetAllCategories()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "12"))
+	search := c.Query("search")
+	sortBy := c.DefaultQuery("sort", "name_asc")
+
+	filter := CategoryFilter{
+		Search: search,
+		SortBy: sortBy,
+		Page:   page,
+		Limit:  limit,
+	}
+
+	result, err := h.categoryService.GetAllCategories(filter)
 
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, "Categories retrieved successfully", categories)
+	utils.SuccessPaginatedResponse(
+		c,
+		http.StatusOK,
+		"Categories retrieved successfully",
+		result.Items,
+		result.TotalItems,
+		result.Page,
+		result.Limit,
+	)
 }
 
 // @Summary      Get active categories
