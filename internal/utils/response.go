@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"math"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,6 +12,14 @@ type APIResponse struct {
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
 	Error   interface{} `json:"error,omitempty"`
+}
+
+type PaginatedData struct {
+	Items      interface{} `json:"items"`
+	TotalItems int64       `json:"total_items"`
+	Page       int         `json:"page"`
+	Limit      int         `json:"limit"`
+	TotalPages int         `json:"total_pages"`
 }
 
 type SwaggerSuccessResponse struct {
@@ -36,6 +45,22 @@ func SuccessResponse(c *gin.Context, statusCode int, message string, data interf
 		Status:  "success",
 		Message: message,
 		Data:    data,
+	})
+}
+
+func SuccessPaginatedResponse(c *gin.Context, statusCode int, message string, items interface{}, totalItems int64, page int, limit int) {
+	totalPages := int(math.Ceil(float64(totalItems) / float64(limit)))
+
+	c.JSON(statusCode, APIResponse{
+		Status:  "success",
+		Message: message,
+		Data: PaginatedData{
+			Items:      items,
+			TotalItems: totalItems,
+			Page:       page,
+			Limit:      limit,
+			TotalPages: totalPages,
+		},
 	})
 }
 
