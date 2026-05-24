@@ -2,6 +2,7 @@ package product
 
 import (
 	"net/http"
+	"strconv"
 
 	"reflect-backend/internal/utils"
 
@@ -17,20 +18,47 @@ func NewProductHandler(productService ProductService) *ProductHandler {
 }
 
 // @Summary      Get all products
-// @Description  Retrieve a list of all products
+// @Description  Retrieve a paginated list of products with search, category filter, and sorting
 // @Tags         Products
 // @Produce      json
-// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]product.ProductResponse}
+// @Param        page     query int    false "Page number (default: 1)"
+// @Param        limit    query int    false "Items per page (default: 12)"
+// @Param        search   query string false "Search products by name (partial match)"
+// @Param        category query string false "Filter by category"
+// @Param        sort     query string false "Sort by (price_asc, price_desc, newest, oldest)"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=utils.PaginatedData{items=[]product.ProductResponse}}
 // @Router       /products [get]
 func (h *ProductHandler) GetAllProducts(c *gin.Context) {
-	products, err := h.productService.GetAllProducts()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "12"))
+	search := c.Query("search")
+	category := c.Query("category")
+	sortBy := c.DefaultQuery("sort", "newest")
+
+	filter := ProductFilter{
+		Search:   search,
+		Category: category,
+		SortBy:   sortBy,
+		Page:     page,
+		Limit:    limit,
+	}
+
+	result, err := h.productService.GetAllProducts(filter)
 
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, "Products retrieved successfully", products)
+	utils.SuccessPaginatedResponse(
+		c,
+		http.StatusOK,
+		"Products retrieved successfully",
+		result.Items,
+		result.TotalItems,
+		result.Page,
+		result.Limit,
+	)
 }
 
 // @Summary      Get product by ID

@@ -10,7 +10,7 @@ import (
 )
 
 type ProductService interface {
-	GetAllProducts() ([]ProductResponse, error)
+	GetAllProducts(filter ProductFilter) (utils.PaginatedData, error)
 	GetProductByID(id string) (ProductResponse, error)
 	GetProductBySlug(slug string) (ProductResponse, error)
 	GetRelatedProducts(id string) ([]ProductResponse, error)
@@ -30,14 +30,29 @@ func NewProductService(productRepository ProductRepository) ProductService {
 	return &productService{productRepository: productRepository}
 }
 
-func (s *productService) GetAllProducts() ([]ProductResponse, error) {
-	products, err := s.productRepository.FindAll()
+func (s *productService) GetAllProducts(filter ProductFilter) (utils.PaginatedData, error) {
+	products, total, err := s.productRepository.FindAllPaginated(filter)
 
 	if err != nil {
-		return nil, utils.InternalServerError("Failed to get products")
+		return utils.PaginatedData{}, utils.InternalServerError("Failed to get products")
 	}
 
-	return ToProductResponses(products), nil
+	page := filter.Page
+	if page < 1 {
+		page = 1
+	}
+
+	limit := filter.Limit
+	if limit < 1 {
+		limit = 12
+	}
+
+	return utils.PaginatedData{
+		Items:      ToProductResponses(products),
+		TotalItems: total,
+		Page:       page,
+		Limit:      limit,
+	}, nil
 }
 
 func (s *productService) GetProductByID(id string) (ProductResponse, error) {

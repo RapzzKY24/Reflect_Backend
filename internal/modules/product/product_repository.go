@@ -5,8 +5,17 @@ import (
 	"gorm.io/gorm"
 )
 
+type ProductFilter struct {
+	Search   string
+	Category string
+	SortBy   string
+	Page     int
+	Limit    int
+}
+
 type ProductRepository interface {
 	FindAll() ([]Product, error)
+	FindAllPaginated(filter ProductFilter) ([]Product, int64, error)
 	FindByID(id uuid.UUID) (Product, error)
 	FindBySlug(slug string) (Product, error)
 	FindNewArrivals() ([]Product, error)
@@ -32,6 +41,52 @@ func (r *productRepository) FindAll() ([]Product, error) {
 	err := r.db.Order("created_at DESC").Find(&products).Error
 
 	return products, err
+}
+
+func (r *productRepository) FindAllPaginated(filter ProductFilter) ([]Product, int64, error) {
+	var products []Product
+	var total int64
+
+	query := r.db.Model(&Product{})
+
+	if filter.Search != "" {
+		query = query.Where("name ILIKE ?", "%"+filter.Search+"%")
+	}
+
+	if filter.Category != "" {
+		query = query.Where("category = ?", filter.Category)
+	}
+
+	orderBy := "created_at DESC"
+	switch filter.SortBy {
+	case "price_asc":
+		orderBy = "price ASC"
+	case "price_desc":
+		orderBy = "price DESC"
+	case "oldest":
+		orderBy = "created_at ASC"
+	case "newest":
+		orderBy = "created_at DESC"
+	}
+
+	page := filter.Page
+	if page < 1 {
+		page = 1
+	}
+
+	limit := filter.Limit
+	if limit < 1 {
+		limit = 12
+	}
+
+	err := query.Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	err = query.Order(orderBy).Offset((page - 1) * limit).Limit(limit).Find(&products).Error
+
+	return products, total, err
 }
 
 func (r *productRepository) FindByID(id uuid.UUID) (Product, error) {
