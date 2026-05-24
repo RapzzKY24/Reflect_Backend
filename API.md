@@ -83,6 +83,21 @@ Token is a JWT that expires in **7 days**. Claims: `user_id`, `email`, `role`.
 }
 ```
 
+### Success (Paginated)
+```json
+{
+  "status": "success",
+  "message": "Products retrieved successfully",
+  "data": {
+    "items": [ ... ],
+    "total_items": 50,
+    "page": 1,
+    "limit": 12,
+    "total_pages": 5
+  }
+}
+```
+
 ### Error (from service layer)
 ```json
 {
@@ -126,9 +141,39 @@ GET /api/v1/ping
 
 ### Products
 
-#### List all products
+#### List all products (with search, filter, sort, pagination)
 ```
 GET /products
+```
+
+**Query parameters:**
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `page` | int | `1` | Page number |
+| `limit` | int | `12` | Items per page |
+| `search` | string | — | Partial match search by name |
+| `category` | string | — | Filter by category |
+| `sort` | string | `newest` | Sort order — `price_asc`, `price_desc`, `newest`, `oldest` |
+
+**Example:**
+```
+GET /products?page=1&limit=12&search=hoodie&category=hoodie&sort=price_asc
+```
+
+**Response (200):**
+```json
+{
+  "status": "success",
+  "message": "Products retrieved successfully",
+  "data": {
+    "items": [ ... ],
+    "total_items": 25,
+    "page": 1,
+    "limit": 12,
+    "total_pages": 3
+  }
+}
 ```
 
 #### New arrivals
@@ -187,50 +232,112 @@ GET /products/:id/related
 
 ### Categories
 
+#### List all categories (with search, sort, pagination)
 ```
-GET  /categories
+GET /categories
+```
+
+**Query parameters:**
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `page` | int | `1` | Page number |
+| `limit` | int | `12` | Items per page |
+| `search` | string | — | Partial match search by name |
+| `sort` | string | `name_asc` | Sort order — `name_asc`, `name_desc` |
+
+**Example:**
+```
+GET /categories?page=1&limit=12&search=hoodie&sort=name_asc
+```
+
+**Response (200):**
+```json
+{
+  "status": "success",
+  "message": "Categories retrieved successfully",
+  "data": {
+    "items": [
+      {
+        "id": "uuid",
+        "name": "Hoodie",
+        "slug": "hoodie",
+        "description": "...",
+        "image": "https://...",
+        "is_active": true,
+        "created_at": "...",
+        "updated_at": "..."
+      }
+    ],
+    "total_items": 5,
+    "page": 1,
+    "limit": 12,
+    "total_pages": 1
+  }
+}
+```
+
+#### Others
+```
 GET  /categories/active
 GET  /categories/slug/:slug
 GET  /categories/:id
 ```
 
-**Response:**
+### Collections
+
+#### List all collections (with search, sort, pagination)
+```
+GET /collections
+```
+
+**Query parameters:**
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `page` | int | `1` | Page number |
+| `limit` | int | `12` | Items per page |
+| `search` | string | — | Partial match search by name |
+| `sort` | string | `name_asc` | Sort order — `name_asc`, `name_desc` |
+
+**Example:**
+```
+GET /collections?page=1&limit=12&search=summer&sort=name_asc
+```
+
+**Response (200):**
 ```json
 {
-  "id": "uuid",
-  "name": "Hoodie",
-  "slug": "hoodie",
-  "description": "...",
-  "image": "https://...",
-  "is_active": true,
-  "created_at": "...",
-  "updated_at": "..."
+  "status": "success",
+  "message": "Collections retrieved successfully",
+  "data": {
+    "items": [
+      {
+        "id": "uuid",
+        "name": "Summer 2026",
+        "slug": "summer-2026",
+        "description": "...",
+        "image": "https://...",
+        "is_featured": false,
+        "is_active": true,
+        "created_at": "...",
+        "updated_at": "..."
+      }
+    ],
+    "total_items": 3,
+    "page": 1,
+    "limit": 12,
+    "total_pages": 1
+  }
 }
 ```
 
-### Collections
-
+#### Others
 ```
-GET  /collections
 GET  /collections/active
 GET  /collections/featured
 GET  /collections/slug/:slug
 GET  /collections/:id
-```
-
-**Response:**
-```json
-{
-  "id": "uuid",
-  "name": "Summer 2026",
-  "slug": "summer-2026",
-  "description": "...",
-  "image": "https://...",
-  "is_featured": false,
-  "is_active": true,
-  "created_at": "...",
-  "updated_at": "..."
-}
 ```
 
 ---
