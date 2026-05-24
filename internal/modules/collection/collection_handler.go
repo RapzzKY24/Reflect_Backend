@@ -2,6 +2,7 @@ package collection
 
 import (
 	"net/http"
+	"strconv"
 
 	"reflect-backend/internal/utils"
 
@@ -17,20 +18,44 @@ func NewCollectionHandler(collectionService CollectionService) *CollectionHandle
 }
 
 // @Summary      Get all collections
-// @Description  Retrieve all product collections
+// @Description  Retrieve a paginated list of collections with search and sorting
 // @Tags         Collections
 // @Produce      json
-// @Success      200 {object} utils.SwaggerSuccessResponse{data=[]collection.CollectionResponse}
+// @Param        page   query int    false "Page number (default: 1)"
+// @Param        limit  query int    false "Items per page (default: 12)"
+// @Param        search query string false "Search collections by name (partial match)"
+// @Param        sort   query string false "Sort by (name_asc, name_desc)"
+// @Success      200 {object} utils.SwaggerSuccessResponse{data=utils.PaginatedData{items=[]collection.CollectionResponse}}
 // @Router       /collections [get]
 func (h *CollectionHandler) GetAllCollections(c *gin.Context) {
-	collections, err := h.collectionService.GetAllCollections()
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "12"))
+	search := c.Query("search")
+	sortBy := c.DefaultQuery("sort", "name_asc")
+
+	filter := CollectionFilter{
+		Search: search,
+		SortBy: sortBy,
+		Page:   page,
+		Limit:  limit,
+	}
+
+	result, err := h.collectionService.GetAllCollections(filter)
 
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	utils.SuccessResponse(c, http.StatusOK, "Collections retrieved successfully", collections)
+	utils.SuccessPaginatedResponse(
+		c,
+		http.StatusOK,
+		"Collections retrieved successfully",
+		result.Items,
+		result.TotalItems,
+		result.Page,
+		result.Limit,
+	)
 }
 
 // @Summary      Get active collections

@@ -10,7 +10,7 @@ import (
 )
 
 type CollectionService interface {
-	GetAllCollections() ([]CollectionResponse, error)
+	GetAllCollections(filter CollectionFilter) (utils.PaginatedData, error)
 	GetActiveCollections() ([]CollectionResponse, error)
 	GetFeaturedCollections() ([]CollectionResponse, error)
 	GetCollectionByID(id string) (CollectionResponse, error)
@@ -28,14 +28,29 @@ func NewCollectionService(collectionRepository CollectionRepository) CollectionS
 	return &collectionService{collectionRepository: collectionRepository}
 }
 
-func (s *collectionService) GetAllCollections() ([]CollectionResponse, error) {
-	collections, err := s.collectionRepository.FindAll()
+func (s *collectionService) GetAllCollections(filter CollectionFilter) (utils.PaginatedData, error) {
+	collections, total, err := s.collectionRepository.FindAllPaginated(filter)
 
 	if err != nil {
-		return nil, utils.InternalServerError("Failed to get collections")
+		return utils.PaginatedData{}, utils.InternalServerError("Failed to get collections")
 	}
 
-	return ToCollectionResponses(collections), nil
+	page := filter.Page
+	if page < 1 {
+		page = 1
+	}
+
+	limit := filter.Limit
+	if limit < 1 {
+		limit = 12
+	}
+
+	return utils.PaginatedData{
+		Items:      ToCollectionResponses(collections),
+		TotalItems: total,
+		Page:       page,
+		Limit:      limit,
+	}, nil
 }
 
 func (s *collectionService) GetActiveCollections() ([]CollectionResponse, error) {
