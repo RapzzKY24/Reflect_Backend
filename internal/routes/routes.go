@@ -72,6 +72,11 @@ func SetupRoutes(router *gin.Engine, cfg *config.Config) {
 
 	authMiddleware := middleware.AuthMiddleware(cfg)
 
+	registerLimiter := middleware.NewRateLimiterFromConfig(cfg, "register")
+	loginLimiter := middleware.NewRateLimiterFromConfig(cfg, "login")
+	checkoutLimiter := middleware.NewRateLimiterFromConfig(cfg, "checkout")
+	uploadLimiter := middleware.NewRateLimiterFromConfig(cfg, "upload")
+
 	api.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status":  "success",
@@ -81,8 +86,8 @@ func SetupRoutes(router *gin.Engine, cfg *config.Config) {
 
 	authRoutes := api.Group("/auth")
 	{
-		authRoutes.POST("/register", authHandler.Register)
-		authRoutes.POST("/login", authHandler.Login)
+		authRoutes.POST("/register", registerLimiter.Middleware(), authHandler.Register)
+		authRoutes.POST("/login", loginLimiter.Middleware(), authHandler.Login)
 	}
 
 	productRoutes := api.Group("/products")
@@ -161,11 +166,11 @@ func SetupRoutes(router *gin.Engine, cfg *config.Config) {
 			orderRoutes.GET("/number/:orderNumber", orderHandler.GetMyOrderByNumber)
 		}
 
-		protectedRoutes.POST("/checkout", orderHandler.Checkout)
+		protectedRoutes.POST("/checkout", checkoutLimiter.UserMiddleware(), orderHandler.Checkout)
 
 		uploadRoutes := protectedRoutes.Group("/upload")
 		{
-			uploadRoutes.POST("", uploadHandler.UploadImage)
+			uploadRoutes.POST("", uploadLimiter.UserMiddleware(), uploadHandler.UploadImage)
 		}
 	}
 
